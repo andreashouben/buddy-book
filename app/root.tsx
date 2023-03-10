@@ -1,3 +1,5 @@
+// noinspection HtmlRequiredTitleElement
+
 import type { LinksFunction, MetaFunction } from "@remix-run/node";
 import {
   Links,
@@ -22,12 +24,12 @@ export const meta: MetaFunction = () => ({
 
 export default function App() {
   return (
-    <html lang="en" className="h-full">
+    <html lang="en" className="h-full ">
       <head>
         <Meta />
         <Links />
       </head>
-      <body className="h-full bg-slate-50">
+      <body className=" bg-base-200">
         <Outlet />
         <ScrollRestoration />
         <Scripts />
