@@ -25,7 +25,7 @@ export const action: ActionFunction = async ({ request }) => {
   if (_action === "delete") {
     const { id } = Object.fromEntries(formData);
     if (typeof id !== "string") {
-      throw new Error("Bad Formdata");
+      throw new Error("Bad form data");
     }
     await db.buddy.delete({
       where: {

@@ -1,7 +1,8 @@
-import { Form } from "@remix-run/react";
+import { Form, useNavigate } from "@remix-run/react";
 import type { ActionFunction } from "@remix-run/router";
 import { redirect } from "@remix-run/router";
 import { db } from "~/utils/db.server";
+import { useCallback, useEffect } from "react";
 
 export const action: ActionFunction = async ({ request }) => {
   let formData = await request.formData();
@@ -21,6 +22,27 @@ export const action: ActionFunction = async ({ request }) => {
 };
 
 export default function Add() {
+  const navigate = useNavigate();
+
+  const handleKeyPress = useCallback(
+    (event: KeyboardEvent): void => {
+      if (event.key === "Escape") {
+        navigate("/");
+      }
+    },
+    [navigate]
+  );
+
+  useEffect(() => {
+    // attach the event listener
+    document.addEventListener("keydown", handleKeyPress);
+
+    // remove the event listener
+    return () => {
+      document.removeEventListener("keydown", handleKeyPress);
+    };
+  }, [handleKeyPress]);
+
   return (
     <div className="card w-64 bg-base-100 shadow-xl">
       <div className="card-body">
