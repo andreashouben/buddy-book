@@ -7,3 +7,4 @@ yarn-error.log
 
 /app/styles/tailwind.css
 prisma/dev.db
+prisma/dev_test.db
