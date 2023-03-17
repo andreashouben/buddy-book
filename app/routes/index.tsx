@@ -1,4 +1,14 @@
 import { Link } from "@remix-run/react";
+import type { LoaderFunction } from "@remix-run/router";
+import { redirect } from "@remix-run/router";
+import { db } from "~/utils/db.server";
+
+export const loader: LoaderFunction = async () => {
+  let buddyCount = await db.buddy.count();
+  if (buddyCount > 0) {
+    return redirect("/buddies");
+  }
+};
 
 export default function Index() {
   return (
