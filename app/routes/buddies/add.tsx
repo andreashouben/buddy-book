@@ -34,10 +34,7 @@ export default function Add() {
   );
 
   useEffect(() => {
-    // attach the event listener
     document.addEventListener("keydown", handleKeyPress);
-
-    // remove the event listener
     return () => {
       document.removeEventListener("keydown", handleKeyPress);
     };
