@@ -8,6 +8,7 @@ export const loader: LoaderFunction = async () => {
   if (buddyCount > 0) {
     return redirect("/buddies");
   }
+  return null;
 };
 
 export default function Index() {

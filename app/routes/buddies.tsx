@@ -1,15 +1,39 @@
 import { Link, Outlet, useLoaderData, useMatches } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/router";
-import { json } from "@remix-run/router";
+import type { ActionFunction, LoaderFunction } from "@remix-run/router";
+import { json, redirect } from "@remix-run/router";
 import React from "react";
 import { db } from "~/utils/db.server";
 import type { BuddyType } from "~/components/buddy/buddy";
 import { Buddy } from "~/components/buddy/buddy";
 
-export const loader: LoaderFunction = async () => {
+export const loader: LoaderFunction = async ({ request }) => {
+  const url = request.url;
+  const addFormIsHidden = !url.endsWith("add");
   const buddies = await db.buddy.findMany();
 
+  if (buddies.length === 0 && addFormIsHidden) {
+    return redirect("/");
+  }
+
   return json(buddies);
+};
+
+export const action: ActionFunction = async ({ request }) => {
+  const formData = await request.formData();
+
+  const { _action } = Object.fromEntries(formData);
+  if (_action === "delete") {
+    const { id } = Object.fromEntries(formData);
+    if (typeof id !== "string") {
+      throw new Error("Bad Formdata");
+    }
+    await db.buddy.delete({
+      where: {
+        id: Number.parseInt(id),
+      },
+    });
+  }
+  return null;
 };
 
 export default function Buddies() {
